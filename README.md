@@ -289,7 +289,6 @@ Ordered by effort, which is the inverse of how they are usually prioritised:
 
 ## Author
 
-**Mohamed Douas** — AI Systems Engineering student, ESI Rabat (ISITD)
+**Mohamed Douas** — SI engineering and digital transformation  , 
 [LinkedIn](https://www.linkedin.com/in/douas-mohamed-146250285) · mohamed.douas@esi.ac.ma
 
-Internship at Tanger Med Port Authority · Supervisor: Wail Hilal, IT Manager
