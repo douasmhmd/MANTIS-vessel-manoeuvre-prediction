@@ -1,0 +1,62 @@
+# ===== Couche F : Feature =====
+raw_vessels:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/vessel_containers.csv
+  load_args:
+    sep: "|"
+    engine: python
+    quoting: 3          # csv.QUOTE_NONE
+    on_bad_lines: skip
+
+mvt_clean:              # lignes ressource nettoyées, porte-conteneurs, types 1/5, dates parsées
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/mvt_clean.parquet
+
+manoeuvres:             # une ligne par MovementID, 4 phases calculées
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/manoeuvres.parquet
+
+features_entree:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/features_entree.parquet
+
+features_sortie:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/features_sortie.parquet
+  # ===== Couche T : Training =====
+metrics_rolling:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/metrics_rolling.csv
+  save_args: {index: false}
+
+metrics_holdout:
+  type: json.JSONDataset
+  filepath: data/08_reporting/metrics_holdout.json
+
+model_B:
+  type: pickle.PickleDataset
+  filepath: data/06_models/model_B.pkl
+model_A_cqr:
+  type: pickle.PickleDataset
+  filepath: data/06_models/model_A_cqr.pkl
+model_C:
+  type: pickle.PickleDataset
+  filepath: data/06_models/model_C.pkl
+model_D:
+  type: pickle.PickleDataset
+  filepath: data/06_models/model_D.pkl
+  # ===== Couche I : Inference =====
+predictions_entree:
+  type: pandas.ParquetDataset
+  filepath: data/07_model_output/predictions_entree.parquet
+predictions_sortie:
+  type: pandas.ParquetDataset
+  filepath: data/07_model_output/predictions_sortie.parquet
+  # ===== Monitoring =====
+monitoring_rolling:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/monitoring_rolling.csv
+  save_args: {index: false}
+monitoring_decision:
+  type: json.JSONDataset
+  filepath: data/08_reporting/monitoring_decision.json

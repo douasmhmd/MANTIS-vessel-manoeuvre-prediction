@@ -1,0 +1,21 @@
+# MANTIS — dépendances (Python 3.12)
+kedro==1.5.0
+kedro-viz>=11.0
+kedro-datasets[pandas]>=7.0
+pandas>=2.1,<3
+numpy<2
+pyarrow>=14
+scikit-learn>=1.4,<2
+scipy
+pandera>=0.20
+mlflow==3.16.0
+evidently>=0.7,<0.8
+shap>=0.45
+fastapi>=0.110
+uvicorn[standard]>=0.30
+pydantic>=2
+streamlit>=1.40
+altair>=5
+requests
+pyyaml
+openai>=1.40

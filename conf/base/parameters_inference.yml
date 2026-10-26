@@ -1,0 +1,8 @@
+inference:
+  navigation_min: 26
+  navigation_tol: 8
+  journal_path: "data/07_model_output/journal.db"
+  model_dir: "data/06_models"
+  ref_manoeuvres: "data/02_intermediate/manoeuvres.parquet"
+  ref_entree: "data/04_feature/features_entree.parquet"
+  ref_sortie: "data/04_feature/features_sortie.parquet"

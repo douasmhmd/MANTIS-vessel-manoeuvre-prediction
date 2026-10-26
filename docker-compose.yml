@@ -1,0 +1,49 @@
+# MANTIS — docker compose up --build
+# Services : mlflow (registre) · api (inférence) · operator (UI) · admin (backoffice)
+# Les pipelines Kedro se lancent à la demande :  docker compose run --rm pipelines kedro run
+services:
+
+  mlflow:
+    build: .
+    command: mlflow server --backend-store-uri sqlite:////app/mlflow.db --host 0.0.0.0 --port 5000
+    ports: ["5000:5000"]
+    volumes:
+      - ./mlflow.db:/app/mlflow.db
+      - ./mlruns:/app/mlruns
+
+  api:
+    build: .
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000
+    ports: ["8000:8000"]
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+    volumes:
+      - ./data:/app/data
+      - ./conf:/app/conf
+    depends_on: [mlflow]
+
+  operator:
+    build: .
+    command: streamlit run ui/operator.py --server.port 8501 --server.address 0.0.0.0
+    ports: ["8501:8501"]
+    environment:
+      - MANTIS_API=http://api:8000
+    depends_on: [api]
+
+  admin:
+    build: .
+    command: streamlit run ui/admin.py --server.port 8502 --server.address 0.0.0.0
+    ports: ["8502:8502"]
+    volumes:
+      - ./data:/app/data
+      - ./mlflow.db:/app/mlflow.db
+    depends_on: [api]
+
+  pipelines:
+    build: .
+    profiles: ["tools"]
+    working_dir: /app
+    volumes:
+      - ./data:/app/data
+      - ./conf:/app/conf
+      - ./mlflow.db:/app/mlflow.db

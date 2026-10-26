@@ -1,0 +1,93 @@
+# conf/base/parameters.yml — MANTIS
+# Les deux blocs sont en colonne 0.
+
+feature:
+  type_navire_pattern: "conteneur"
+  movement_types: {entree: 1, sortie: 5}
+  date_cols:
+    - Resource_ActualStartDate
+    - Resource_ActualEndDate
+    - Service_ActualStartTime
+    - Service_ActualEndTime
+    - Mouvement_ETA
+    - Mouvement_ActualStartDate
+    - Mouvement_ActualFinishDate
+    - PortLimitArrival
+    - JettyArrival
+    - JettyDeparture
+    - PortLimitDeparture
+    - Visit_ETA
+    - Visit_ATA
+    - Visit_ETD
+    - Visit_ATD
+  draft_bounds: [3, 25]
+  seuils_min:
+    entree: [15, 480]
+    sortie: [10, 120]
+  clip_tugs: 4
+  clip_pilots: 2
+  retard_eta_clip: [-1440, 2880]
+  releve_heures: [8, 9]
+  terminaux: [TC1, TC2, TC3, TC4]
+  tugs_regle_bins: [0, 200, 350, 500]
+  hist_min_n: {quai: 5, navire: 3}
+
+training:
+  holdout_start: "2024-07-01"
+  calib_start: "2024-01-01"
+  origins: ["2023-07-01", "2024-01-01", "2024-07-01", "2025-01-01"]
+  horizon_months: 6
+  alpha: 0.2
+  quantiles: [0.10, 0.50, 0.90]
+  hgb:
+    max_iter: 500
+    learning_rate: 0.04
+    max_depth: 5
+    min_samples_leaf: 40
+    l2_regularization: 1.0
+    random_state: 0
+  features_entree:
+    - Length
+    - AfterDraft
+    - assiette
+    - nb_tugs
+    - nb_tugs_regle
+    - ecart_tugs
+    - nb_pilots
+    - occup_term
+    - attente_term
+    - en_cours
+    - retard_ETA_w
+    - releve
+    - heure_sin
+    - heure_cos
+    - term_c
+    - quai_hist_phase_A
+    - quai_hist_phase_B
+    - navire_hist_phase_A
+    - navire_hist_phase_B
+    - nb_escales_prev
+  features_sortie:
+    - Length
+    - AfterDraft
+    - assiette
+    - nb_tugs
+    - nb_tugs_regle
+    - ecart_tugs
+    - nb_pilots
+    - occup_term
+    - attente_term
+    - en_cours
+    - releve
+    - heure_sin
+    - heure_cos
+    - term_c
+    - sejour_quai_h
+    - quai_hist_phase_C
+    - quai_hist_phase_D
+    - navire_hist_phase_C
+    - navire_hist_phase_D
+    - nb_escales_prev
+  mlflow:
+    tracking_uri: "sqlite:///mlflow.db"
+    experiment: mantis

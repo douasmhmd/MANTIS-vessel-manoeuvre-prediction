@@ -1,0 +1,14 @@
+# This is a boilerplate parameters config generated for pipeline 'monitoring'
+# using Kedro 1.5.0.
+#
+# Documentation for this file format can be found in "Parameters"
+# Link: https://docs.kedro.org/en/1.5.0/configuration/parameters.html
+monitoring:
+  window: 300                        # manœuvres par fenêtre glissante
+  reference_end: "2024-07-01"        # référence = période d'entraînement
+  seuils:
+    biais_abs_max: 1.0               # min — biais moyen des résidus
+    coverage_min: 0.75               # intervalle A cible 0.80
+    mae_ratio_max: 1.15              # MAE fenêtre / MAE holdout global
+  report_path: "data/08_reporting/evidently_drift.html"
+  drift_features: [Length, AfterDraft, nb_tugs, occup_term, attente_term, en_cours, retard_ETA_w]
